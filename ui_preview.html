@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyPilot UI Preview</title>
+    
+    <!-- Import Fonts: Merriweather for headers, JetBrains Mono for monospace, and a generic sans-serif for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --parchment: #F4EBD9;
+            --mahogany: #3A2318;
+            --bankers-green: #2A7E43;
+            --lamp-glow: #FCEB9C;
+            --cold-tea-blue: #4B6973;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Merriweather', serif;
+            color: var(--mahogany);
+            /* Background image with wood paneling */
+            background-image: url('assets/Gemini_Generated_Image_sh45z8sh45z8sh45.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Banner / Header */
+        header {
+            background-color: var(--bankers-green);
+            color: var(--lamp-glow);
+            border-bottom: 4px solid var(--mahogany);
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Main App Container */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        /* Text Boxes (Chat & Form Inputs) */
+        .chat-container {
+            background-color: var(--parchment);
+            border: 2px solid var(--mahogany);
+            box-shadow: 8px 8px 0px var(--mahogany);
+            width: 100%;
+            max-width: 800px;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        /* Chat History Area */
+        .chat-history {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            background-color: #f8f1e6; /* Slightly lighter parchment for inner depth */
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--mahogany);
+            box-shadow: 4px 4px 0px var(--mahogany);
+            background-color: var(--parchment);
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--lamp-glow);
+            border-color: var(--mahogany);
+        }
+
+        .message.bot {
+            align-self: flex-start;
+        }
+
+        .message h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: var(--bankers-green);
+        }
+
+        .message .sql-query {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #e8dbbf;
+            padding: 0.8rem;
+            border: 1px solid var(--mahogany);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            display: block;
+            font-size: 0.9rem;
+            color: var(--cold-tea-blue);
+        }
+
+        /* Input Form Area */
+        .chat-input-area {
+            border-top: 2px solid var(--mahogany);
+            padding: 1.5rem;
+            background-color: var(--parchment);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            background-color: #fffaf0;
+            border: 2px solid var(--mahogany);
+            box-shadow: 4px 4px 0px var(--mahogany);
+            padding: 1rem 1.5rem;
+            font-family: 'Merriweather', serif;
+            font-size: 1.1rem;
+            color: var(--mahogany);
+            outline: none;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .chat-input-area input:focus {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--mahogany);
+        }
+
+        .chat-input-area button {
+            background-color: var(--bankers-green);
+            color: var(--lamp-glow);
+            border: 2px solid var(--mahogany);
+            box-shadow: 4px 4px 0px var(--mahogany);
+            padding: 0 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
+        }
+
+        .chat-input-area button:hover {
+            background-color: #236b38;
+        }
+
+        .chat-input-area button:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px var(--mahogany);
+        }
+
+        /* Scrollbar styling for mahogany feel */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--parchment);
+            border-left: 2px solid var(--mahogany);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--bankers-green);
+            border: 2px solid var(--mahogany);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>PolicyPilot</h1>
+        <p>COMPANY POLICY ASSISTANT // v1.0</p>
+    </header>
+
+    <main>
+        <div class="chat-container">
+            <div class="chat-history">
+                <div class="message bot">
+                    <h3>PolicyPilot</h3>
+                    Hello! I'm your company policy assistant. What would you like to know?
+                </div>
+                
+                <div class="message user">
+                    How many casual leaves can I take?
+                </div>
+                
+                <div class="message bot">
+                    <h3>PolicyPilot</h3>
+                    Employees are entitled to <strong>12 casual leaves</strong> per calendar year. Casual leaves cannot be carried forward to the next year.
+                    <span class="sql-query">> Retrieved from: Leave Policy v2.1</span>
+                </div>
+                
+                <div class="message user">
+                    What about remote work?
+                </div>
+                
+                <div class="message bot">
+                    <h3>PolicyPilot</h3>
+                    You may work remotely for up to 2 days per week, subject to manager approval.
+                    <span class="sql-query">> Retrieved from: Remote Work Policy</span>
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" placeholder="Ask a question about company policies...">
+                <button type="button">Send</button>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

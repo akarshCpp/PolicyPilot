@@ -1,0 +1,42 @@
+[
+    {
+        "question": "How many casual leaves can I take?",
+        "expected_topics": ["Casual Leave", "12 casual leave days"],
+        "category": "Direct"
+    },
+    {
+        "question": "What is the work-from-home policy for interns?",
+        "expected_topics": ["Work From Home Policy", "Eligibility", "completed their first 30 days"],
+        "category": "Direct"
+    },
+    {
+        "question": "How much notice do I need to give if I resign?",
+        "expected_topics": ["Notice Period Policy", "Standard Notice", "30 days"],
+        "category": "Direct"
+    },
+    {
+        "question": "Can I carry forward my sick leave?",
+        "expected_topics": ["Sick Leave", "carried forward up to a maximum of 30 days"],
+        "category": "Direct"
+    },
+    {
+        "question": "What is the per diem for travel meals and do I need a receipt?",
+        "expected_topics": ["Meal Allowance", "$75", "Receipts are not required"],
+        "category": "Multi-fact"
+    },
+    {
+        "question": "Does the company pay for my Netflix subscription?",
+        "expected_topics": ["I couldn't find this information"],
+        "category": "No Context"
+    },
+    {
+        "question": "What happens if I lose my laptop?",
+        "expected_topics": ["Device Policy", "Lost or Stolen Devices", "report it to the IT helpdesk immediately"],
+        "category": "Direct"
+    },
+    {
+        "question": "What is the maximum hotel allowance for international trips?",
+        "expected_topics": ["Travel Policy", "Accommodation", "$300 per night"],
+        "category": "Direct"
+    }
+]
