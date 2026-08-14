@@ -2,7 +2,7 @@
 
 **PolicyPilot** is a simple, intelligent, and beautifully designed RAG-based chatbot that allows employees to ask questions about company policies using natural language. It instantly retrieves relevant sections from internal documents and uses a Large Language Model to answer the questions contextually and accurately.
 
-![PolicyPilot Preview](screenshot/preview.png)
+![PolicyPilot Preview](screenshot/Screenshot%202026-08-15%20010157.png)
 
 ## 🎨 Design Philosophy
 PolicyPilot departs from generic SaaS interfaces. It embraces a flat, 2D illustration style utilizing a harmonious color palette:
