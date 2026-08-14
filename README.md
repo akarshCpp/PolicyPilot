@@ -1,68 +1,93 @@
-# PolicyPilot
+# PolicyPilot 🏛️
 
-PolicyPilot is a simple, production-quality chatbot that allows employees to ask questions about company policies using natural language. It retrieves relevant sections from company policy documents and uses an LLM to generate an answer grounded only in the retrieved information.
+**PolicyPilot** is a simple, intelligent, and beautifully designed RAG-based chatbot that allows employees to ask questions about company policies using natural language. It instantly retrieves relevant sections from internal documents and uses a Large Language Model to answer the questions contextually and accurately.
 
-## Architecture
+![PolicyPilot Preview](screenshot/preview.png)
 
-![Architecture](https://via.placeholder.com/800x400?text=React+->+FastAPI+->+Supabase/pgvector+->+Groq+LLM)
+## 🎨 Design Philosophy
+PolicyPilot departs from generic SaaS interfaces. It embraces a flat, 2D illustration style utilizing a harmonious color palette:
+- **Parchment (#F4EBD9)** for paper-like backgrounds
+- **Mahogany Wood (#3A2318)** for high-contrast typography and hard borders
+- **Banker's Green (#2A7E43)** for primary accents and headers
+- **Lamp Glow (#FCEB9C)** for user chat highlights
+- **Cold Tea Blue (#4B6973)** for technical/code block accents
 
-- **Frontend**: React + Vite + Tailwind CSS
-- **Backend**: FastAPI (Python)
-- **Database**: Supabase PostgreSQL with `pgvector`
-- **Embeddings**: Local `BAAI/bge-base-en-v1.5` via `sentence-transformers`
-- **LLM**: Groq (Llama 3 8B)
+The interface features bold, unblurred drop-shadows and pairs the warm **Merriweather** serif font with the technical **JetBrains Mono**.
 
-## How RAG Works in PolicyPilot
-1. **Document Processing**: Markdown policy files are chunked by section (`## ` headers) using `chunker.py`.
-2. **Embedding**: Each chunk is embedded using the local `BAAI/bge-base-en-v1.5` model.
-3. **Storage**: Chunks and embeddings are stored in Supabase in the `knowledge_chunks` table.
-4. **Retrieval**: When a user asks a question, it's embedded, and `pgvector` retrieves the Top-K (5) most similar chunks.
-5. **Generation**: The context chunks are passed to the Groq LLM with strict instructions to answer *only* using the provided context.
-6. **Citation**: The source (Policy Name, Section) is returned to the frontend.
+## 🏗️ Architecture Diagram
 
-## Installation
+```mermaid
+flowchart TD
+    subgraph Frontend [Client]
+        UI[React / Vite SPA]
+        UI --> |"POST /api/chat"| API
+    end
 
-### Prerequisites
-- Python 3.10+
-- Node.js 18+
-- Supabase account & project
-- Groq API Key
+    subgraph Backend [FastAPI Server]
+        API[API Endpoint]
+        RAG[RAG Engine]
+        API --> RAG
+    end
 
-### Backend Setup
-1. `cd backend`
-2. Create virtual environment: `python -m venv .venv`
-3. Activate it: `.venv\Scripts\activate` (Windows)
-4. Install dependencies: `pip install -r requirements.txt`
+    subgraph VectorDB [Knowledge Base]
+        PG[(Supabase PostgreSQL)]
+        Vector[pgvector]
+        PG --- Vector
+    end
 
-### Database Setup
-1. Run the migrations in `supabase/migrations/` on your Supabase project (from the Supabase SQL editor or CLI).
-2. Get your `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
+    subgraph LLM_Provider [LLM]
+        Groq[Groq API\nllama-3.1-8b-instant]
+    end
 
-### Environment Variables
-Copy `.env.example` to `.env` in the root directory and fill in your keys:
+    subgraph Embedding [BGE Embedding]
+        BGE[BAAI/bge-base-en-v1.5]
+    end
+
+    RAG --> |1. Question to Embedding| BGE
+    BGE --> |2. Embedding Vector| RAG
+    RAG --> |3. Similarity Search RPC| PG
+    PG --> |4. Top K Chunks| RAG
+    RAG --> |5. Context + Prompt| Groq
+    Groq --> |6. Answer| RAG
 ```
+
+## 🚀 How It Works
+
+1. **Knowledge Ingestion**: The `scripts/ingest_knowledge.py` script parses Markdown files from the `knowledge/` directory, chunks them logically by headers, generates 768-dimensional vector embeddings via `BAAI/bge-base-en-v1.5`, and uploads them to a Supabase `knowledge_chunks` table using `pgvector`.
+2. **Retrieval**: When an employee asks a question, the FastAPI backend embeds the query and calls a Supabase RPC function (`match_knowledge_chunks`) to calculate cosine similarities. It returns the top relevant policy sections.
+3. **Generation**: The retrieved context and the user's question are compiled into a strict prompt and sent to Groq's Llama 3.1 8B model. The LLM is explicitly instructed to never hallucinate and only answer based on the provided company context.
+4. **Presentation**: The response, along with exact source citations, is presented to the user in the React frontend.
+
+## 🛠️ Quick Start
+
+### 1. Database Setup (Supabase)
+Run the SQL files located in `supabase/migrations/` sequentially in your Supabase SQL Editor:
+1. `001_enable_pgvector.sql`
+2. `002_create_knowledge_chunks.sql`
+3. `003_create_match_function.sql`
+
+*Note: After running the migrations, you may need to reload the Supabase schema cache:*
+```sql
+NOTIFY pgrst, 'reload schema';
+```
+
+### 2. Environment Variables
+Create a `.env` file in the project root:
+```env
 SUPABASE_URL=your_supabase_url
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-GROQ_API_KEY=your_groq_api_key
+GROQ_API_KEY=your_groq_key
 ```
 
-### Knowledge Ingestion
-1. From the root directory, ensure backend `.venv` is activated.
-2. Run: `python scripts/ingest_knowledge.py`
+### 3. Launching
+You can launch both the background ingestion and the API server by running:
+```bash
+.\run_backend.bat
+```
 
-### Frontend Setup
-1. `cd frontend`
-2. `npm install`
-3. `npm run dev`
-
-### Running the App
-- Backend: `cd backend` -> `uvicorn app.main:app --reload`
-- Frontend: `cd frontend` -> `npm run dev`
-
-## Evaluation
-An `evaluation_dataset.json` file is provided with sample questions to evaluate retrieval accuracy and hallucination rates.
-
-## Future Improvements
-- Implement BM25 hybrid search for better keyword matching.
-- Add user authentication and row-level security.
-- Add streaming responses for the LLM.
+To start the frontend UI:
+```bash
+cd frontend
+npm install
+npm run dev
+```

@@ -1,9 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Merriweather:wght@400;700;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-slate-50 text-slate-900 antialiased;
-  }
+:root {
+  --parchment: #F4EBD9;
+  --mahogany: #3A2318;
+  --bankers-green: #2A7E43;
+  --lamp-glow: #FCEB9C;
+  --cold-tea-blue: #4B6973;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Merriweather', serif;
+  color: var(--mahogany);
+  background-image: url('../../assets/Gemini_Generated_Image_sh45z8sh45z8sh45.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--parchment);
+  border-left: 2px solid var(--mahogany);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bankers-green);
+  border: 2px solid var(--mahogany);
 }
