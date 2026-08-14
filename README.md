@@ -4,15 +4,6 @@
 
 ![PolicyPilot Preview](screenshot/preview.png)
 
-## 🎨 Design Philosophy
-PolicyPilot departs from generic SaaS interfaces. It embraces a flat, 2D illustration style utilizing a harmonious color palette:
-- **Parchment (#F4EBD9)** for paper-like backgrounds
-- **Mahogany Wood (#3A2318)** for high-contrast typography and hard borders
-- **Banker's Green (#2A7E43)** for primary accents and headers
-- **Lamp Glow (#FCEB9C)** for user chat highlights
-- **Cold Tea Blue (#4B6973)** for technical/code block accents
-
-The interface features bold, unblurred drop-shadows and pairs the warm **Merriweather** serif font with the technical **JetBrains Mono**.
 
 ## 🏗️ Architecture Diagram
 
